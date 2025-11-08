@@ -1,23 +1,39 @@
 import { useEffect, useState } from 'react'
 
+const getToastConfig = (msg) => {
+  if (typeof msg === 'string') {
+    return { type: 'info', message: msg }
+  }
+  return msg
+}
+
 export default function ToastHost() {
-  const [msg, setMsg] = useState(null)
+  const [toast, setToast] = useState(null)
+  const [hiding, setHiding] = useState(false)
 
   useEffect(() => {
-    const h = (e) => {
-      setMsg(e.detail)
-      setTimeout(() => setMsg(null), 2200)
+    const handleToast = (e) => {
+      const config = getToastConfig(e.detail)
+      setToast(config)
+      setHiding(false)
+      // hide after 3s
+      setTimeout(() => {
+        setHiding(true)
+        setTimeout(() => setToast(null), 300)
+      }, 3000)
     }
-    window.addEventListener('toast', h)
-    return () => window.removeEventListener('toast', h)
+    window.addEventListener('toast', handleToast)
+    return () => window.removeEventListener('toast', handleToast)
   }, [])
 
-  if (!msg) return null
+  if (!toast) return null
+
+  const cls = `toast ${toast.type === 'success' ? 'success' : toast.type === 'error' ? 'error' : ''} ${hiding ? 'toast--hide' : ''}`.trim()
+
   return (
-    <div style={{
-      position:'fixed', bottom:20, left:'50%', transform:'translateX(-50%)',
-      background:'#111', color:'#fff', padding:'10px 14px', borderRadius:10,
-      boxShadow:'0 6px 20px rgba(0,0,0,.22)', zIndex:1000
-    }}>{msg}</div>
+    <div className={cls} role="status" aria-live="polite">
+      <span style={{ display: 'inline-block', marginRight: 8 }}>{/* space for an icon */}</span>
+      <span className="text-sm font-medium">{toast.message}</span>
+    </div>
   )
 }

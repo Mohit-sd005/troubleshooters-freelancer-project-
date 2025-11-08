@@ -1,5 +1,4 @@
 import { Link, useNavigate } from 'react-router-dom'
-<Link to="/profile" className="btn light">Profile</Link>
 
 export default function Navbar() {
   const navigate = useNavigate()
@@ -10,17 +9,22 @@ export default function Navbar() {
     navigate('/login')
   }
 
+  const initials = user ? ( (user.name || user.email || '').split(' ').map(s=>s[0]).slice(0,2).join('') ) : ''
+
   return (
     <div className="header">
       <div className="container nav">
-        <Link to="/"><strong>TroubleShooters</strong></Link>
+        <Link to="/" className="brand nav-item"><span className="nav brand">TroubleShooters</span></Link>
         <div className="spacer" />
         {user ? (
           <>
-            <span className="badge">{user.role}</span>
+            <span className="badge" aria-hidden>{user.role}</span>
             {user.role === 'CLIENT' && <Link to="/client" className="btn light">My Ads</Link>}
             {user.role === 'DEVELOPER' && <Link to="/developer" className="btn light">Browse Ads</Link>}
-            <button className="btn" onClick={logout}>Logout</button>
+            <Link to="/profile" className="btn light" aria-label="Profile">
+              <span className="avatar" title={user.name || user.email}>{initials || 'U'}</span>
+            </Link>
+            <button className="btn" onClick={logout} aria-label="Logout">Logout</button>
           </>
         ) : (
           <>

@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom'
+<Link to="/profile" className="btn light">Profile</Link>
 
 export default function Navbar() {
   const navigate = useNavigate()

@@ -17,6 +17,11 @@ public class AdService {
         ad.setStatus("ACTIVE");
         return adRepository.save(ad);
     }
+    public List<Ad> searchActive(String q, Integer minCost, Integer maxCost) {
+        return adRepository.searchActive(q == null || q.isBlank() ? null : q,
+                minCost, maxCost);
+    }
+
 
     // Get ads of a specific client
     public List<Ad> getClientAds(Long clientId) {
@@ -34,15 +39,26 @@ public class AdService {
     }
 
     // Update ad
+//    public Ad updateAd(Long id, Ad updatedAd) {
+//        Ad existing = adRepository.findById(id).orElse(null);
+//        if (existing == null) return null;
+//
+//        existing.setFullDescription(updatedAd.getFullDescription());
+//        existing.setGithubLinks(updatedAd.getGithubLinks());
+//        existing.setRequirements(updatedAd.getRequirements());
+//        existing.setCost(updatedAd.getCost());
+//
+//        return adRepository.save(existing);
+//    }
     public Ad updateAd(Long id, Ad updatedAd) {
         Ad existing = adRepository.findById(id).orElse(null);
         if (existing == null) return null;
+        if ("DELETED".equals(existing.getStatus())) return existing; // noop
 
         existing.setFullDescription(updatedAd.getFullDescription());
         existing.setGithubLinks(updatedAd.getGithubLinks());
         existing.setRequirements(updatedAd.getRequirements());
         existing.setCost(updatedAd.getCost());
-
         return adRepository.save(existing);
     }
 

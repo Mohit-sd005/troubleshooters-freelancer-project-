@@ -20,6 +20,13 @@ public class AdController {
     public Ad createAd(@RequestBody Ad ad) {
         return adService.createAd(ad);
     }
+    @GetMapping("/search")
+    public List<Ad> searchActive(@RequestParam(required=false) String q,
+                                 @RequestParam(required=false) Integer minCost,
+                                 @RequestParam(required=false) Integer maxCost) {
+        return adService.searchActive(q, minCost, maxCost);
+    }
+
 
     // Get all ads of client
     @GetMapping("/client/{clientId}")

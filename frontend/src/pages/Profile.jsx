@@ -10,7 +10,7 @@ export default function Profile() {
       {u.role === 'DEVELOPER' && (
         <div className="mt8"><strong>LinkedIn:</strong> {u.linkedinUrl ? <a href={u.linkedinUrl} target="_blank">Open</a> : '-'}</div>
       )}
-      <div className="mt16 badge">Deleted ads cannot be edited or viewed for acceptors.</div>
+      {/* <div className="mt16 badge">Deleted ads cannot be edited or viewed for acceptors.</div> */}
     </div>
   )
 }

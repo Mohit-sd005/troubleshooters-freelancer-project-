@@ -66,9 +66,9 @@ export default function ViewAd() {
       )}
 
       {/* ✅ Clients just view the ad; no accept button */}
-      {user.role === 'CLIENT' && (
+      {/* {user.role === 'CLIENT' && (
         <div className="mt16 badge">Clients can view their ads but cannot accept them.</div>
-      )}
+      )} */}
     </div>
   )
 }

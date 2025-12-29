@@ -17,6 +17,8 @@ public class AdService {
         ad.setStatus("ACTIVE");
         return adRepository.save(ad);
     }
+    
+    //
     public List<Ad> searchActive(String q, Integer minCost, Integer maxCost) {
         return adRepository.searchActive(q == null || q.isBlank() ? null : q,
                 minCost, maxCost);
